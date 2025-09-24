@@ -32,7 +32,7 @@ CREATE TABLE art (
 );
 
 CREATE TABLE portfolio (
-  art_id uuid NOT NULL REFERENCES art (id) UNIQUE ON DELETE CASCADE,
+  art_id uuid NOT NULL REFERENCES art (id) UNIQUE,
   added_at timestamptz DEFAULT CURRENT_TIMESTAMP
 );
 
