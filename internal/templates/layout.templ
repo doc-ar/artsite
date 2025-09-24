@@ -1,0 +1,26 @@
+package templates
+
+templ header() {
+	<head>
+		<title>Hafsa Khan</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<script defer src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.5/dist/htmx.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/dragscroll@0.0.8/dragscroll.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
+		<script defer src="/static/script/client.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<link rel="stylesheet" href="/static/css/style.min.css"/>
+	</head>
+}
+
+templ Layout(contents templ.Component) {
+	<!DOCTYPE html>
+	<html x-data="{ loading: false, menu: false }" class="size-full box-border overflow-x-hidden">
+		@header()
+		<body class="flex flex-col size-full overflow-auto">
+			@contents
+			@LoadingSmil()
+		</body>
+	</html>
+}

@@ -1,0 +1,119 @@
+package templates
+
+templ GalleryPage() {
+	@Navbar()
+	<main x-data="{ filters: false }" class="flex flex-row flex-1 overflow-auto gap-6">
+		<!-- Sidebar: Filters & Search -->
+		<div
+			x-show="filters"
+			x-transition.opacity
+			x-transition.width.origin.left
+			x-transition:enter.duration.500ms
+			x-transition:leave.duration.0ms
+			x-cloak
+			class="fixed sm:static flex flex-col z-20 h-full w-60 flex-shrink-0 gap-6 px-4 py-6 border-r border-gray-200 overflow-y-auto bg-white"
+		>
+			<button @click="filters = false" class="self-end mb-6">
+				<svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+				</svg>
+			</button>
+			<input
+				id="gallery_search_input"
+				type="search"
+				placeholder="Search..."
+				oninput="searchList()"
+				class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
+			/>
+			<!-- Category Filters -->
+			<div id="category_filters" class="flex flex-col gap-2 text-sm text-gray-700">
+				<label class="font-bold">Category</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Original" onchange="filterGallery()" class="accent-blue-500"/>
+					Original
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Print" onchange="filterGallery()" class="accent-blue-500"/>
+					Print
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Canvas Print" onchange="filterGallery()" class="accent-blue-500"/>
+					Canvas Print
+				</label>
+			</div>
+			<!-- Medium Filters -->
+			<div id="medium_filters" class="flex flex-col gap-2 text-sm text-gray-700">
+				<label class="font-bold">Medium</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Water Color" onchange="filterGallery()" class="accent-blue-500"/>
+					Water Color
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Oil" onchange="filterGallery()" class="accent-blue-500"/>
+					Oil
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Digital" onchange="filterGallery()" class="accent-blue-500"/>
+					Digital
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Mix Media" onchange="filterGallery()" class="accent-blue-500"/>
+					Mix Media
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Graphite" onchange="filterGallery()" class="accent-blue-500"/>
+					Graphite
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Ink" onchange="filterGallery()" class="accent-blue-500"/>
+					Ink
+				</label>
+				<label class="flex items-center gap-2">
+					<input type="checkbox" value="Acrylic" onchange="filterGallery()" class="accent-blue-500"/>
+					Acrylic
+				</label>
+			</div>
+		</div>
+		<!-- Main Gallery Area -->
+		<div class="flex-1 flex flex-col overflow-auto">
+			<div class="flex items-center px-10 pt-4" x-show="!filters">
+				<svg
+					@click="filters = !filters"
+					class="size-6 w-min cursor-pointer"
+					width="64px"
+					height="64px"
+					viewBox="0 0 24.00 24.00"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+					transform="rotate(0)"
+				>
+					<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+					<g
+						id="SVGRepo_tracerCarrier"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke="#CCCCCC"
+						stroke-width="0.144"
+					></g>
+					<g id="SVGRepo_iconCarrier">
+						<path
+							d="M4 5L10 5M10 5C10 6.10457 10.8954 7 12 7C13.1046 7 14 6.10457 14 5M10 5C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5M14 5L20 5M4 12H16M16 12C16 13.1046 16.8954 14 18 14C19.1046 14 20 13.1046 20 12C20 10.8954 19.1046 10 18 10C16.8954 10 16 10.8954 16 12ZM8 19H20M8 19C8 17.8954 7.10457 17 6 17C4.89543 17 4 17.8954 4 19C4 20.1046 4.89543 21 6 21C7.10457 21 8 20.1046 8 19Z"
+							stroke="#000000"
+							stroke-width="1.9200000000000004"
+							stroke-linecap="round"
+						></path>
+					</g>
+				</svg>
+				<span @click="filters = !filters" class="cursor-pointer">Filters</span>
+			</div>
+			<div
+				id="gallery_item_list"
+				hx-get="/art"
+				hx-swap="innerHTML"
+				hx-trigger="load"
+				hx-target="this"
+				@htmx:after-swap="sortGallery()"
+			></div>
+		</div>
+	</main>
+}

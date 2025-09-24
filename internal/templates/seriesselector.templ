@@ -1,0 +1,19 @@
+package templates
+
+import "artsite/internal/db/queries"
+
+templ SeriesSelector(seriesList []db.Series) {
+	<select
+		required
+		name="series_id"
+		class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%] text-gray-500 text-lg"
+	>
+		for _, item := range seriesList {
+			@seriesItem(item)
+		}
+	</select>
+}
+
+templ seriesItem(item db.Series) {
+	<option value={ item.ID.String() }>{ item.Name }</option>
+}

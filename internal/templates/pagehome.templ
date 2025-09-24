@@ -1,0 +1,12 @@
+package templates
+
+templ HomePage() {
+	@Navbar()
+	<main class="flex flex-col items-center gap-4 flex-1">
+		<video autoplay muted loop class="w-full">
+			<source src="/media/hero_video.webm"/>
+		</video>
+		<div hx-get="/portfolio" hx-swap="outerHTML" hx-trigger="load" id="posts_placeholder" class="p-4"></div>
+	</main>
+	@Footer()
+}

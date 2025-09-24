@@ -1,0 +1,9 @@
+package templates
+
+templ SeriesPage() {
+	@Navbar()
+	<main class="flex flex-col items-center gap-4 flex-1">
+		<div hx-get="/serieslist" hx-swap="outerHTML" hx-trigger="load" id="posts_placeholder" class="p-4"></div>
+	</main>
+	@Footer()
+}

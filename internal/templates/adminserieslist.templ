@@ -1,0 +1,57 @@
+package templates
+
+import "artsite/internal/db/queries"
+
+templ AdminSeriesList(seriesList []db.Series) {
+	<ul class="flex flex-col gap-4 p-4 overflow-auto">
+		for _, seriesItem := range seriesList {
+			@adminSeriesItem(seriesItem)
+		}
+	</ul>
+}
+
+templ adminSeriesItem(item db.Series) {
+	if item.Name != "None" {
+		<li class="flex flex-col bg-gray-200 rounded-md overflow-auto gap-2 p-4">
+			<div class="self-start flex flex-col sm:flex-row gap-4">
+				<img src={ item.CoverImg } class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"/>
+				<table class="border-separate border-spacing-x-2 sm:border-spacing-x-4 border-spacing-y-2">
+					<tr class="align-text-top">
+						<td class="text-right"><strong>Name:</strong></td>
+						<td>{ item.Name }</td>
+					</tr>
+					<tr class="align-text-top">
+						<td class="text-right"><strong>Description:</strong></td>
+						<td>{ item.Description }</td>
+					</tr>
+					<tr class="align-text-top">
+						<td class="text-right"><strong>Created At:</strong></td>
+						<td>{ item.CreatedAt.Time.String() }</td>
+					</tr>
+				</table>
+			</div>
+			<div class="flex gap-4 items-center">
+				<button
+					hx-delete={ "/admin/series/" + item.ID.String() }
+					hx-swap="none"
+					hx-trigger="click"
+					@htmx:before-request="loading = true;"
+					@htmx:after-request="loading = false; location.reload()"
+					type="button"
+					class="w-min px-6 py-2 text-base text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Delete</button>
+				<button
+					hx-get={ "/admin/series/form/" + item.ID.String() }
+					hx-swap="innerHTML"
+					hx-target="#series_edit_form"
+					hx-trigger="click"
+					@htmx:before-request="loading = true;"
+					@htmx:after-request="loading = false;"
+					type="button"
+					class="w-min px-6 py-2 text-base text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Edit</button>
+				<div id="series_edit_form"></div>
+			</div>
+		</li>
+	}
+}

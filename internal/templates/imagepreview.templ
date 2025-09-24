@@ -1,0 +1,7 @@
+package templates
+
+templ ImagePreview(url string) {
+	<label for="image_url" class="text-base">Image Preview</label>
+	<img src={ url } class="object-contain"/>
+	<input type="hidden" name="image_url" value={ url }/>
+}

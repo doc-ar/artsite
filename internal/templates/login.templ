@@ -1,0 +1,31 @@
+package templates
+
+templ LoginPage() {
+	<main x-data="{ error: false }" class="flex flex-col justify-center items-center size-full">
+		<form
+			hx-post="/admin/login"
+			hx-swap="none"
+			@htmx:response-error="error = true;"
+			@htmx:before-send="loading = true;"
+			@htmx:after-request="if (!(event.detail.xhr.status >= 400)) location.reload(); loading = false"
+			class="p-4 flex flex-col gap-4 items-center justify-center w-9/10 h-3/10  rounded-sm border-gray-300 border-1 sm:h-3/10 sm:w-5/10"
+		>
+			<label for="password" class="text-xl font-semibold sm:text-3xl">Enter Admin Password</label>
+			<input
+				type="password"
+				name="password"
+				required
+				class="w-full border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				autofocus
+			/>
+			<input type="hidden" name="username" value="admin"/>
+			<button
+				type="submit"
+				class="w-min px-6 py-2 text-lg text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+			>Login</button>
+			<span x-show="error" class="text-red-600 text-sm mt-2" x-cloak>
+				Invalid Password
+			</span>
+		</form>
+	</main>
+}

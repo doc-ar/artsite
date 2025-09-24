@@ -1,0 +1,301 @@
+package templates
+
+import "artsite/internal/db/queries"
+
+templ EditArtForm(item db.Art) {
+	<div
+		class="fixed z-10 sm:w-8/10 sm:h-8/10 size-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white sm:rounded-lg sm:ring-4 sm:ring-blue-500 overflow-auto"
+	>
+		<form
+			id="admin_edit_form"
+			hx-put="/admin/art"
+			hx-swap="none"
+			@htmx:before-send="loading = true;"
+			@htmx:after-request="
+        loading = false;
+        if(event.target.getAttribute('id') === 'admin_edit_form') {
+          closeEditForm();
+          location.reload();
+        }
+      "
+			class="flex flex-col justify-start p-4 gap-4 size-full overflow-auto"
+		>
+			<input type="hidden" name="image_url" value={ item.ImageUrl }/>
+			<input type="hidden" name="id" value={ item.ID.String() }/>
+			<div class="flex flex-col gap-2">
+				<label for="title, description" class="">Title and Description</label>
+				<input
+					type="text"
+					name="title"
+					placeholder="Title of art"
+					required
+					autocomplete="off"
+					value={ item.Title }
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				/>
+				<textarea
+					type="text"
+					name="description"
+					placeholder="Art description"
+					required
+					autocomplete="off"
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				>
+					{ item.Description }
+				</textarea>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="width, height" class="">Dimensions</label>
+				<div class="flex gap-2">
+					<input
+						type="number"
+						name="width"
+						placeholder="Width (cm)"
+						required
+						min="0"
+						autocomplete="off"
+						value={ item.Width }
+						class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%]"
+					/>
+					<input
+						type="number"
+						name="height"
+						placeholder="Height (cm)"
+						required
+						min="0"
+						autocomplete="off"
+						value={ item.Height }
+						class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%]"
+					/>
+				</div>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="series" class="">Series</label>
+				<div hx-get="/admin/seriesselector" hx-swap="innerHTML" hx-trigger="load" class=""></div>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label class="">Category</label>
+				<fieldset class="flex gap-2 sm:gap-4 flex-wrap sm:flex-nowrap">
+					<legend class="sr-only">Category</legend>
+					<div class="flex items-center">
+						<input
+							id="category-option-1"
+							type="radio"
+							name="category"
+							value="Original"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Category == "Original" }
+						/>
+						<label for="category-option-1" class="block ms-2  text-sm font-medium">
+							Original
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="category-option-2"
+							type="radio"
+							name="category"
+							value="Print"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Category == "Print" }
+						/>
+						<label for="category-option-2" class="block ms-2  text-sm font-medium">
+							Print
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="category-option-3"
+							type="radio"
+							name="category"
+							value="Canvas Print"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Category == "Canvas Print" }
+						/>
+						<label for="category-option-3" class="block ms-2 text-sm font-medium">
+							Canvas Print
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label class="">Medium</label>
+				<fieldset class="flex gap-2 sm:gap-4 flex-wrap sm:flex-nowrap">
+					<legend class="sr-only">Medium</legend>
+					<div class="flex items-center">
+						<input
+							id="medium-option-1"
+							type="radio"
+							name="medium"
+							value="Water Color"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Water Color" }
+						/>
+						<label for="medium-option-1" class="block ms-2  text-sm font-medium">
+							Water Color
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="medium-option-2"
+							type="radio"
+							name="medium"
+							value="Oil"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Oil" }
+						/>
+						<label for="medium-option-2" class="block ms-2  text-sm font-medium">
+							Oil
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="medium-option-3"
+							type="radio"
+							name="medium"
+							value="Digital"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Digital" }
+						/>
+						<label for="medium-option-3" class="block ms-2  text-sm font-medium">
+							Digital
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="medium-option-4"
+							type="radio"
+							name="medium"
+							value="Mix Media"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Mix Media" }
+						/>
+						<label for="medium-option-4" class="block ms-2  text-sm font-medium">
+							Mix Media
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="medium-option-5"
+							type="radio"
+							name="medium"
+							value="Graphite"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Graphite" }
+						/>
+						<label for="medium-option-5" class="block ms-2  text-sm font-medium">
+							Graphite
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="medium-option-6"
+							type="radio"
+							name="medium"
+							value="Ink"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Ink" }
+						/>
+						<label for="medium-option-6" class="block ms-2  text-sm font-medium">
+							Ink
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="medium-option-7"
+							type="radio"
+							name="medium"
+							value="Acrylic"
+							class="w-4 h-4 border-gray-300"
+							checked={ item.Medium == "Acrylic" }
+						/>
+						<label for="medium-option-7" class="block ms-2  text-sm font-medium">
+							Acrylic
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="flex gap-4 items-center">
+				<label for="price" class="">Price</label>
+				<input
+					type="number"
+					name="price"
+					placeholder="Price"
+					autocomplete="off"
+					value={ item.Price }
+					required
+					min="0"
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%]"
+				/>
+			</div>
+			<div class="flex gap-4 items-center">
+				<button
+					type="submit"
+					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Submit</button>
+				<button
+					type="button"
+					onclick="closeEditForm()"
+					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Close</button>
+			</div>
+		</form>
+	</div>
+}
+
+templ EditSeriesForm(item db.Series) {
+	<div
+		class="fixed z-10 sm:w-8/10 sm:h-8/10 size-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white sm:rounded-lg sm:ring-4 sm:ring-blue-500 overflow-auto"
+	>
+		<form
+			id="admin_edit_form"
+			hx-put="/admin/series"
+			hx-swap="none"
+			@htmx:before-send="loading = true;"
+			@htmx:after-request="
+        loading = false;
+        if(event.target.getAttribute('id') === 'admin_edit_form') {
+          closeEditForm();
+          location.reload();
+        }
+      "
+			class="flex flex-col justify-start p-4 gap-4 size-full overflow-auto"
+		>
+			<input type="hidden" name="image_url" value={ item.CoverImg }/>
+			<input type="hidden" name="id" value={ item.ID.String() }/>
+			<div class="flex flex-col gap-2">
+				<label for="title, description" class="">Title and Description</label>
+				<input
+					type="text"
+					name="name"
+					placeholder="Name of Series"
+					required
+					autocomplete="off"
+					value={ item.Name }
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				/>
+				<textarea
+					type="text"
+					name="description"
+					placeholder="Series description"
+					required
+					autocomplete="off"
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				>
+					{ item.Description }
+				</textarea>
+			</div>
+			<div class="flex gap-4 items-center">
+				<button
+					type="submit"
+					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Submit</button>
+				<button
+					type="button"
+					onclick="closeEditForm()"
+					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Close</button>
+			</div>
+		</form>
+	</div>
+}

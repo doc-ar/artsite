@@ -1,0 +1,42 @@
+services:
+  app:
+    image: artsite
+    container_name: artsite
+    build:
+      context: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - TOKEN_SECRET=sometokensecret
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@artsite-db:5432/artsitedb
+      - ADMIN_PASSWORD=artsiteadmin
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - artsite-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: artsite-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=artsitedb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./internal/db/config/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 10s
+      retries: 20
+    networks:
+      - artsite-network
+
+volumes:
+  pgdata:
+
+networks:
+  artsite-network:
+    driver: bridge

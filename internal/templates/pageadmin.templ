@@ -1,0 +1,493 @@
+package templates
+
+templ AdminPage() {
+	<main x-data="cookieMenu()" class="flex flex-col items-center p-4 gap-4 flex-1 text-sm sm:text-base">
+		@nav()
+		@upload_menu()
+		@art_menu()
+		@account_menu()
+		@series_menu()
+		@home_menu()
+		@portfolio_menu()
+	</main>
+}
+
+templ nav() {
+	<nav
+		class="size-full sm:w-8/10 h-min items-center p-2 flex gap-4 bg-stone-200 border-gray-300 border-solid border-1 rounded-md"
+	>
+		<div
+			@click="menu = 'upload'"
+			:class="menu == 'upload' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Upload</span>
+		</div>
+		<div
+			@click="menu = 'art'"
+			:class="menu == 'art' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Posts</span>
+		</div>
+		<div
+			@click="menu = 'settings'"
+			:class="menu == 'settings' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Settings</span>
+		</div>
+		<div
+			@click="menu = 'series'"
+			:class="menu == 'series' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Series</span>
+		</div>
+		<div
+			@click="menu = 'home'"
+			:class="menu == 'home' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Home</span>
+		</div>
+		<div
+			@click="menu = 'portfolio'"
+			:class="menu == 'portfolio' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Portfolio</span>
+		</div>
+	</nav>
+}
+
+templ upload_menu() {
+	<div
+		x-show="menu == 'upload'"
+		x-data="{ upload_state: '' }"
+		class="flex flex-col size-full sm:w-8/10 h-min rounded-md border-gray-300 border-solid border-1"
+		x-cloak
+	>
+		<div class="bg-stone-200 py-2 px-4 border-b-1 border-b-solid border-b-gray-300">
+			<span class="">Upload Art</span>
+		</div>
+		<span x-show="upload_state == 'error'" class="text-red-600 text-sm mt-2 px-4 py-2">
+			Error uploading artwork (Maybe try again)
+		</span>
+		<span x-show="upload_state == 'file_error'" class="text-red-600 text-sm mt-2 px-4 py-2">
+			File upload error (unsupported File)
+		</span>
+		<span x-show="upload_state == 'success'" class="text-green-600 text-sm mt-2 px-4 py-2">
+			Art uploaded successfully
+		</span>
+		<div class="flex flex-col p-4 gap-2 pb-0">
+			<label for="image" class="">Upload Image</label>
+			<input
+				id="image_input"
+				type="file"
+				name="image"
+				accept=".jpg, .jpeg, .png"
+				hx-post="/admin/upload"
+				hx-encoding="multipart/form-data"
+				hx-swap="innerHTML"
+				hx-target="#image_placeholder"
+				@htmx:before-send="loading = true;"
+				@htmx:after-request="
+          if (event.target.id === 'image_input' && !(event.detail.xhr.status >= 400)) {
+          upload_state = 'success'; }
+          loading = false;
+        "
+				@htmx:response-error="upload_state = 'file_error';"
+				required
+				class="p-2 border border-gray-300 rounded-sm text-gray-700 bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 file:bg-blue-500 file:text-white file:p-2 file:cursor-pointer file:rounded-md file:mr-2 hover:file:bg-blue-700 focus:file:bg-blue-800 w-full sm:w-[50%]"
+			/>
+		</div>
+		<form
+			id="art_form"
+			hx-post="/admin/art"
+			hx-swap="none"
+			@htmx:response-error="upload_state = 'error';"
+			@htmx:before-send="loading = true;"
+			@htmx:after-request="
+        loading = false;
+        if (event.target.id === 'art_form' && !(event.detail.xhr.status >= 400)) {
+          document.body.scrollTop = 0;
+          setTimeout(()=>{ location.reload() }, 1500)
+        }
+        "
+			class="flex flex-col justify-start p-4 gap-4 pt-0"
+		>
+			<div id="image_placeholder" class="flex flex-col gap-2">
+				<input type="text" name="image_url" required class="opacity-0 w-0 h-0 float-left"/>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="title, description" class="">Title and Description</label>
+				<input
+					type="text"
+					name="title"
+					placeholder="Title of art"
+					required
+					autocomplete="off"
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				/>
+				<textarea
+					type="text"
+					name="description"
+					placeholder="Art description"
+					required
+					autocomplete="off"
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+				></textarea>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="width, height" class="">Dimensions</label>
+				<div class="flex gap-2">
+					<input
+						type="number"
+						name="width"
+						placeholder="Width (cm)"
+						required
+						min="0"
+						autocomplete="off"
+						class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%]"
+					/>
+					<input
+						type="number"
+						name="height"
+						placeholder="Height (cm)"
+						required
+						min="0"
+						autocomplete="off"
+						class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%]"
+					/>
+				</div>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="series_id" class="">Series</label>
+				<div hx-get="/admin/seriesselector" hx-swap="innerHTML" hx-trigger="load" class=""></div>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label class="">Category</label>
+				<fieldset class="flex gap-3 flex-wrap sm:flex-nowrap">
+					<legend class="sr-only">Category</legend>
+					<div class="flex items-center">
+						<input
+							id="category-option-1"
+							type="radio"
+							name="category"
+							value="Original"
+							class="w-4 h-4 border-gray-300"
+							checked
+						/>
+						<label for="category-option-1" class="block ms-2  text-sm font-medium">
+							Original
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="category-option-2" type="radio" name="category" value="Print" class="w-4 h-4 border-gray-300"/>
+						<label for="category-option-2" class="block ms-2  text-sm font-medium">
+							Print
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input
+							id="category-option-3"
+							type="radio"
+							name="category"
+							value="Canvas Print"
+							class="w-4 h-4 border-gray-300"
+						/>
+						<label for="category-option-3" class="block ms-2 text-sm font-medium">
+							Canvas Print
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label class="">Medium</label>
+				<fieldset class="flex gap-3 flex-wrap sm:flex-nowrap">
+					<legend class="sr-only">Medium</legend>
+					<div class="flex items-center">
+						<input
+							id="medium-option-1"
+							type="radio"
+							name="medium"
+							value="Water Color"
+							class="w-4 h-4 border-gray-300"
+							checked
+						/>
+						<label for="medium-option-1" class="block ms-2  text-sm font-medium">
+							Water Color
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="medium-option-2" type="radio" name="medium" value="Oil" class="w-4 h-4 border-gray-300"/>
+						<label for="medium-option-2" class="block ms-2  text-sm font-medium">
+							Oil
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="medium-option-3" type="radio" name="medium" value="Digital" class="w-4 h-4 border-gray-300"/>
+						<label for="medium-option-3" class="block ms-2  text-sm font-medium">
+							Digital
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="medium-option-4" type="radio" name="medium" value="Mix Media" class="w-4 h-4 border-gray-300"/>
+						<label for="medium-option-4" class="block ms-2  text-sm font-medium">
+							Mix Media
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="medium-option-5" type="radio" name="medium" value="Graphite" class="w-4 h-4 border-gray-300"/>
+						<label for="medium-option-5" class="block ms-2  text-sm font-medium">
+							Graphite
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="medium-option-6" type="radio" name="medium" value="Ink" class="w-4 h-4 border-gray-300"/>
+						<label for="medium-option-6" class="block ms-2  text-sm font-medium">
+							Ink
+						</label>
+					</div>
+					<div class="flex items-center">
+						<input id="medium-option-7" type="radio" name="medium" value="Acrylic" class="w-4 h-4 border-gray-300"/>
+						<label for="medium-option-7" class="block ms-2  text-sm font-medium">
+							Acrylic
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="flex gap-4 items-center">
+				<label for="price" class="">Price</label>
+				<input
+					type="number"
+					name="price"
+					placeholder="Price"
+					autocomplete="off"
+					required
+					min="0"
+					class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-[20%]"
+				/>
+			</div>
+			<button
+				type="submit"
+				class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+			>Add</button>
+		</form>
+	</div>
+}
+
+templ art_menu() {
+	<div
+		x-show="menu == 'art'"
+		class="flex flex-col size-full sm:w-8/10 h-min rounded-md overflow-hidden border-gray-300 border-solid border-1"
+		x-cloak
+	>
+		<div class="bg-stone-200 py-2 px-4 border-b-1 border-b-solid border-b-gray-300">
+			<span class="text-base">Uploaded Art</span>
+		</div>
+		<div hx-get="/admin/art" hx-swap="outerHTML" hx-trigger="load" id="posts_placeholder" class="p-4"></div>
+	</div>
+}
+
+templ account_menu() {
+	<div
+		x-data="{ settings_state: '' }"
+		x-show="menu == 'settings'"
+		x-cloak
+		class="flex flex-col size-full sm:w-8/10 h-min rounded-md overflow-hidden border-gray-300 border-solid border-1"
+	>
+		<div class="bg-stone-200 py-2 px-4 border-b-1 border-b-solid border-b-gray-300">
+			<span class="">Change Password</span>
+		</div>
+		<form
+			hx-put="/admin"
+			hx-swap="none"
+			@htmx:response-error="settings_state = 'error';"
+			@htmx:before-send="loading = true;"
+			@htmx:after-request="loading = false"
+			@htmx:after-swap="settings_state = 'success'"
+			class="flex flex-col justify-start p-4 gap-2"
+		>
+			<input
+				type="password"
+				name="old_password"
+				placeholder="Old Password"
+				required
+				autocomplete="off"
+				class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+			/>
+			<input
+				type="password"
+				name="new_password"
+				placeholder="New Password"
+				required
+				autocomplete="off"
+				class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+			/>
+			<input type="hidden" name="username" value="admin"/>
+			<span x-show="settings_state == 'error'" class="text-red-600 text-sm mt-2">
+				Invalid Password
+			</span>
+			<span x-show="settings_state == 'success'" class="text-green-600 text-sm mt-2">
+				Password Updated Successfully
+			</span>
+			<button
+				type="submit"
+				class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+			>Update</button>
+		</form>
+	</div>
+}
+
+templ series_menu() {
+	<div
+		x-show="menu == 'series'"
+		x-data="{ upload_state: '' }"
+		class="flex flex-col size-full sm:w-8/10 h-min rounded-md border-gray-300 border-solid border-1"
+		x-cloak
+	>
+		<div class="bg-stone-200 py-2 px-4 border-b-1 border-b-solid border-b-gray-300">
+			<span class="">Series Settings</span>
+		</div>
+		<span x-show="upload_state == 'error'" class="text-red-600 text-sm mt-2 px-4 py-2">
+			Error Uploading Cover (Maybe try again)
+		</span>
+		<span x-show="upload_state == 'file_error'" class="text-red-600 text-sm mt-2 px-4 py-2">
+			File upload error (unsupported File)
+		</span>
+		<span x-show="upload_state == 'success'" class="text-green-600 text-sm mt-2 px-4 py-2">
+			Art uploaded successfully
+		</span>
+		<div class="flex flex-col p-4 gap-2 pb-0">
+			<div class="flex flex-col p-4 gap-2 pb-0">
+				<label for="image" class="">Upload Image</label>
+				<input
+					id="image_input_series"
+					type="file"
+					name="image"
+					accept=".jpg, .jpeg, .png"
+					hx-post="/admin/upload"
+					hx-encoding="multipart/form-data"
+					hx-swap="innerHTML"
+					hx-target="#image_placeholder_series"
+					@htmx:before-send="loading = true;"
+					@htmx:after-request="
+          if (event.target.id === 'image_input_series' && !(event.detail.xhr.status >= 400)) {
+          upload_state = 'success'; }
+          loading = false;
+        "
+					@htmx:response-error="upload_state = 'file_error';"
+					required
+					class="p-2 border border-gray-300 rounded-sm text-gray-700 bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 file:bg-blue-500 file:text-white file:p-2 file:cursor-pointer file:rounded-md file:mr-2 hover:file:bg-blue-700 focus:file:bg-blue-800 w-full sm:w-[50%]"
+				/>
+			</div>
+			<form
+				id="series_form"
+				hx-post="/admin/series"
+				hx-swap="none"
+				@htmx:response-error="upload_state = 'error';"
+				@htmx:before-send="loading = true;"
+				@htmx:after-request="
+        loading = false;
+        if (event.target.id === 'series_form' && !(event.detail.xhr.status >= 400)) {
+          document.body.scrollTop = 0;
+          setTimeout(()=>{ location.reload() }, 1500)
+        }
+        "
+				class="flex flex-col justify-start p-4 gap-4 pt-0"
+			>
+				<div id="image_placeholder_series" class="flex flex-col gap-2">
+					<input type="text" name="image_url" required class="opacity-0 w-0 h-0 float-left"/>
+				</div>
+				<div class="flex flex-col gap-2">
+					<label for="title, description" class="">Title and Description</label>
+					<input
+						type="text"
+						name="name"
+						placeholder="Series Name"
+						required
+						autocomplete="off"
+						class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+					/>
+					<textarea
+						type="text"
+						name="description"
+						placeholder="Series Description"
+						required
+						autocomplete="off"
+						class="border-solid border-1 border-gray-300 p-2.5 rounded-sm outline-0 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+					></textarea>
+				</div>
+				<button
+					type="submit"
+					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
+				>Add</button>
+			</form>
+		</div>
+		<div class="flex flex-col p-8 gap-2 pb-0">
+			<span class="text-base">Series List</span>
+			<div hx-get="/admin/series" hx-swap="outerHTML" hx-trigger="load" id="posts_placeholder" class="p-4"></div>
+		</div>
+	</div>
+}
+
+templ home_menu() {
+	<div
+		x-show="menu == 'home'"
+		x-data="{ upload_state: '' }"
+		class="flex flex-col size-full sm:w-8/10 h-min rounded-md border-gray-300 border-solid border-1"
+		x-cloak
+	>
+		<div class="bg-stone-200 py-2 px-4 border-b-1 border-b-solid border-b-gray-300">
+			<span class="">Home Settings</span>
+		</div>
+		<span x-show="upload_state == 'error'" class="text-red-600 text-sm mt-2 px-4 py-2">
+			Error uploading artwork (Maybe try again)
+		</span>
+		<span x-show="upload_state == 'file_error'" class="text-red-600 text-sm mt-2 px-4 py-2">
+			File upload error (unsupported File)
+		</span>
+		<span x-show="upload_state == 'success'" class="text-green-600 text-sm mt-2 px-4 py-2">
+			Art uploaded successfully
+		</span>
+		<div class="flex flex-col p-4 gap-2 pb-0">
+			<label for="hero_video" class="">Upload Home Video</label>
+			<input
+				type="file"
+				name="hero_video"
+				accept=".webm"
+				hx-post="/admin/uploadvideo"
+				hx-encoding="multipart/form-data"
+				hx-swap="none"
+				@htmx:before-send="loading = true;"
+				@htmx:after-request="loading = false;"
+				@htmx:response-error="upload_state = 'file_error';"
+				required
+				class="p-2 border border-gray-300 rounded-sm text-gray-700 bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 file:bg-blue-500 file:text-white file:p-2 file:cursor-pointer file:rounded-md file:mr-2 hover:file:bg-blue-700 focus:file:bg-blue-800 w-full sm:w-[50%]"
+			/>
+		</div>
+		<div class="flex flex-col p-4 gap-2 pb-6">
+			<label for="hero_video" class="">Current Video Preview</label>
+			<div class="flex justify-center items-center h-100">
+				<video controls class="h-full">
+					<source src="/media/hero_video.webm"/>
+				</video>
+			</div>
+		</div>
+	</div>
+}
+
+templ portfolio_menu() {
+	<div
+		x-show="menu == 'portfolio'"
+		class="flex flex-col size-full sm:w-8/10 h-min rounded-md overflow-hidden border-gray-300 border-solid border-1"
+		x-cloak
+	>
+		<div class="bg-stone-200 py-2 px-4 border-b-1 border-b-solid border-b-gray-300">
+			<span class="text-base">Portfolio</span>
+		</div>
+		<div hx-get="/admin/portfolio" hx-swap="outerHTML" hx-trigger="load" id="posts_placeholder" class="p-4"></div>
+	</div>
+}
