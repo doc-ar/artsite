@@ -20,4 +20,5 @@ RUN CGO_ENABLED=0 go build -o ./app ./cmd
 
 FROM scratch AS production
 COPY --from=builder /build/app /
+EXPOSE 8000
 CMD [ "/app" ]
