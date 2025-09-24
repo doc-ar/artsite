@@ -14,7 +14,7 @@ import (
 
 func GetPortfolioAdmin(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "Get Admin Portfolio List endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "Get Admin Portfolio List endpoint reached\n")
 		queries := db.New(pool)
 
 		portfolio, err := queries.ListPortfolio(r.Context())
@@ -25,6 +25,6 @@ func GetPortfolioAdmin(pool *pgxpool.Pool) http.HandlerFunc {
 
 		templates.AdminPortfolio(portfolio).Render(r.Context(), w)
 
-		fmt.Fprintf(os.Stderr, "Get Admin Portfolio endpoint exited\n\n")
+		fmt.Fprintf(os.Stdout, "Get Admin Portfolio endpoint exited\n\n")
 	}
 }

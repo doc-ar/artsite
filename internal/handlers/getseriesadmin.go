@@ -14,7 +14,7 @@ import (
 
 func GetSeriesAdmin(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "Get admin series endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "Get admin series endpoint reached\n")
 		queries := db.New(pool)
 
 		serieslist, err := queries.ListSeries(r.Context())
@@ -25,6 +25,6 @@ func GetSeriesAdmin(pool *pgxpool.Pool) http.HandlerFunc {
 
 		templates.AdminSeriesList(serieslist).Render(r.Context(), w)
 
-		fmt.Fprintf(os.Stderr, "Get admin series endpoint exited\n\n")
+		fmt.Fprintf(os.Stdout, "Get admin series endpoint exited\n\n")
 	}
 }

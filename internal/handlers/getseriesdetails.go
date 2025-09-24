@@ -14,7 +14,7 @@ import (
 
 func GetSeriesDetails(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "Get series details endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "Get series details endpoint reached\n")
 		queries := db.New(pool)
 		series_name := r.PathValue("name")
 
@@ -26,6 +26,6 @@ func GetSeriesDetails(pool *pgxpool.Pool) http.HandlerFunc {
 
 		templates.SeriesDetailsList(artlist).Render(r.Context(), w)
 
-		fmt.Fprintf(os.Stderr, "Get series details endpoint exited\n\n")
+		fmt.Fprintf(os.Stdout, "Get series details endpoint exited\n\n")
 	}
 }

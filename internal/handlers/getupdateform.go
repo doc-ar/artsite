@@ -33,13 +33,13 @@ func GetSeriesForm(pool *pgxpool.Pool) http.HandlerFunc {
 
 		templates.EditSeriesForm(seriesItem).Render(r.Context(), w)
 
-		fmt.Fprintf(os.Stderr, "Get Series Edit Form endpoint exited\n\n")
+		fmt.Fprintf(os.Stdout, "Get Series Edit Form endpoint exited\n\n")
 	}
 }
 
 func GetArtForm(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "Get Art Edit Form endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "Get Art Edit Form endpoint reached\n")
 		queries := db.New(pool)
 
 		id := r.PathValue("id")
@@ -57,6 +57,6 @@ func GetArtForm(pool *pgxpool.Pool) http.HandlerFunc {
 
 		templates.EditArtForm(artItem).Render(r.Context(), w)
 
-		fmt.Fprintf(os.Stderr, "Get Art Edit Form endpoint exited\n\n")
+		fmt.Fprintf(os.Stdout, "Get Art Edit Form endpoint exited\n\n")
 	}
 }

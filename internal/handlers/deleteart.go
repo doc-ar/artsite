@@ -14,7 +14,7 @@ import (
 
 func DeleteArt(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "DELETE /art endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "DELETE /art endpoint reached\n")
 		queries := db.New(pool)
 
 		id := r.PathValue("id")
@@ -32,7 +32,7 @@ func DeleteArt(pool *pgxpool.Pool) http.HandlerFunc {
 			return
 		}
 
-		fmt.Fprintf(os.Stderr, "Deleted Art: %v\n", deletedart)
-		fmt.Fprintf(os.Stderr, "DELETE /art endpoint successfully exited\n\n")
+		fmt.Fprintf(os.Stdout, "Deleted Art: %v\n", deletedart)
+		fmt.Fprintf(os.Stdout, "DELETE /art endpoint successfully exited\n\n")
 	}
 }

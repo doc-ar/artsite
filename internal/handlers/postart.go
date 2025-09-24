@@ -16,7 +16,7 @@ import (
 
 func PostArt(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "Endpoint for posting art is reached \n\n")
+		fmt.Fprintf(os.Stdout, "Endpoint for posting art is reached \n\n")
 		queries := db.New(pool)
 
 		// Get form data

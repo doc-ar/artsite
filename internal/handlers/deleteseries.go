@@ -14,7 +14,7 @@ import (
 
 func DeleteSeries(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "DELETE series endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "DELETE series endpoint reached\n")
 		queries := db.New(pool)
 
 		id := r.PathValue("id")

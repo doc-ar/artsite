@@ -10,7 +10,7 @@ CREATE TABLE art (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid () NOT NULL,
   series_id uuid REFERENCES series (id) NOT NULL,
   title varchar(150) NOT NULL,
-  description varchar(300) NOT NULL,
+  description varchar(4000) NOT NULL,
   image_url varchar(80) NOT NULL,
   width int NOT NULL check (width >= 0),
   height int NOT NULL check (height >= 0),

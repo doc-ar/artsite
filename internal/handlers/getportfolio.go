@@ -14,7 +14,7 @@ import (
 
 func GetPortfolio(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "Get client portfolio endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "Get client portfolio endpoint reached\n")
 		queries := db.New(pool)
 
 		portfolio, err := queries.ListPortfolio(r.Context())
@@ -25,6 +25,6 @@ func GetPortfolio(pool *pgxpool.Pool) http.HandlerFunc {
 
 		templates.Portfolio(portfolio).Render(r.Context(), w)
 
-		fmt.Fprintf(os.Stderr, "Get client portfolio endpoint exited\n\n")
+		fmt.Fprintf(os.Stdout, "Get client portfolio endpoint exited\n\n")
 	}
 }

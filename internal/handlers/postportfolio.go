@@ -15,7 +15,7 @@ import (
 
 func PostPortfolio(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "POST portfolio endpoint reached \n")
+		fmt.Fprintf(os.Stdout, "POST portfolio endpoint reached \n")
 		queries := db.New(pool)
 
 		// Get form data

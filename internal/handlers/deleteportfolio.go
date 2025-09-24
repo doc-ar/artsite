@@ -14,7 +14,7 @@ import (
 
 func DeletePortfolio(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(os.Stderr, "DELETE portfolio endpoint reached\n")
+		fmt.Fprintf(os.Stdout, "DELETE portfolio endpoint reached\n")
 		queries := db.New(pool)
 
 		id := r.PathValue("id")
