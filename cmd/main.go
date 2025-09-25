@@ -46,6 +46,7 @@ func main() {
 	router.HandleFunc("GET /portfolio/", handlers.GetPortfolio(dbpool))
 	router.HandleFunc("GET /serieslist/", handlers.GetSeries(dbpool))
 	router.HandleFunc("GET /series/{name}/list", handlers.GetSeriesDetails(dbpool))
+	router.HandleFunc("GET /introvideo", handlers.GetIntroVideo())
 
 	// Authenticated CRUD handlers
 	router.HandleFunc("GET /admin/art/", utils.AuthMiddleware(handlers.GetArtAdmin(dbpool)))

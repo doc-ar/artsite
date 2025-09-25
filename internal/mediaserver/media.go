@@ -8,6 +8,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/HugoSmits86/nativewebp"
@@ -18,15 +19,47 @@ func MediaHandler() http.Handler {
 	return http.StripPrefix("/media/", fs)
 }
 
+func GetIntroVideoPath() string {
+	matches, err := filepath.Glob("media/intro_video_*.webp")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error finding video: %v\n", err)
+		return ""
+	}
+
+	if len(matches) == 0 {
+		fmt.Fprintf(os.Stderr, "Could not find any intro video\n")
+		return ""
+	}
+
+	return matches[0]
+}
+
+func RemoveExistingVideos() {
+	matches, err := filepath.Glob("media/intro_video_*.webp")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error finding video: %v\n", err)
+	}
+
+	if len(matches) == 0 {
+		fmt.Fprintf(os.Stderr, "Could not find any intro video\n")
+	}
+
+	for _, path := range matches {
+		os.Remove(path)
+	}
+}
+
 func UploadVideo(file multipart.File) error {
 	defer file.Close()
-	err := os.MkdirAll("media", 0755)
+	err := os.MkdirAll("media", 0o755)
 	if err != nil {
 		return fmt.Errorf("error creating directory: %w", err)
 	}
 
-	os.Remove("media/hero_video.webm")
-	introfile, err := os.Create("media/hero_video.webm")
+	video_url := fmt.Sprintf("media/intro_video_%d.webp", time.Now().Unix())
+
+	RemoveExistingVideos()
+	introfile, err := os.Create(video_url)
 	if err != nil {
 		return fmt.Errorf("error creating file: %w", err)
 	}
@@ -41,7 +74,7 @@ func UploadVideo(file multipart.File) error {
 }
 
 func Upload(file multipart.File) (string, error) {
-	err := os.MkdirAll("media", 0755)
+	err := os.MkdirAll("media", 0o755)
 	if err != nil {
 		return "", fmt.Errorf("error creating directory: %w", err)
 	}

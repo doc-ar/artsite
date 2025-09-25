@@ -19,14 +19,12 @@ func UploadVideo() http.HandlerFunc {
 		if err != nil {
 			utils.RespondError(w, r, http.StatusBadRequest, "Error retrieving file from request")
 			fmt.Fprintf(os.Stderr, "Err: %v\n", err)
-			return
 		}
 
 		upload_err := mediaserver.UploadVideo(file)
 		if upload_err != nil {
 			utils.RespondError(w, r, http.StatusInternalServerError, "Error uploading file to the server")
 			fmt.Fprintf(os.Stderr, "Err: %v\n", upload_err)
-			return
 		}
 	}
 }

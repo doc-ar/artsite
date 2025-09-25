@@ -5,10 +5,10 @@ templ AdminPage() {
 		@nav()
 		@upload_menu()
 		@art_menu()
-		@account_menu()
 		@series_menu()
-		@home_menu()
 		@portfolio_menu()
+		@video_menu()
+		@password_menu()
 	</main>
 }
 
@@ -31,13 +31,6 @@ templ nav() {
 			<span>Posts</span>
 		</div>
 		<div
-			@click="menu = 'settings'"
-			:class="menu == 'settings' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
-			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
-		>
-			<span>Settings</span>
-		</div>
-		<div
 			@click="menu = 'series'"
 			:class="menu == 'series' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
 			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
@@ -45,18 +38,25 @@ templ nav() {
 			<span>Series</span>
 		</div>
 		<div
-			@click="menu = 'home'"
-			:class="menu == 'home' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
-			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
-		>
-			<span>Home</span>
-		</div>
-		<div
 			@click="menu = 'portfolio'"
 			:class="menu == 'portfolio' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
 			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
 		>
 			<span>Portfolio</span>
+		</div>
+		<div
+			@click="menu = 'video'"
+			:class="menu == 'video' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Video</span>
+		</div>
+		<div
+			@click="menu = 'password'"
+			:class="menu == 'password' ? 'bg-blue-500 text-white' : 'bg-white text-gray-800 hover:bg-blue-100 border border-gray-300'"
+			class="cursor-pointer rounded-md px-2 py-2 sm:px-4 sm:py-3"
+		>
+			<span>Password</span>
 		</div>
 	</nav>
 }
@@ -291,10 +291,10 @@ templ art_menu() {
 	</div>
 }
 
-templ account_menu() {
+templ password_menu() {
 	<div
 		x-data="{ settings_state: '' }"
-		x-show="menu == 'settings'"
+		x-show="menu == 'password'"
 		x-cloak
 		class="flex flex-col size-full sm:w-8/10 h-min rounded-md overflow-hidden border-gray-300 border-solid border-1"
 	>
@@ -433,9 +433,9 @@ templ series_menu() {
 	</div>
 }
 
-templ home_menu() {
+templ video_menu() {
 	<div
-		x-show="menu == 'home'"
+		x-show="menu == 'video'"
 		x-data="{ upload_state: '' }"
 		class="flex flex-col size-full sm:w-8/10 h-min rounded-md border-gray-300 border-solid border-1"
 		x-cloak
@@ -462,7 +462,7 @@ templ home_menu() {
 				hx-encoding="multipart/form-data"
 				hx-swap="none"
 				@htmx:before-send="loading = true;"
-				@htmx:after-request="loading = false;"
+				@htmx:after-request="loading = false; location.reload();"
 				@htmx:response-error="upload_state = 'file_error';"
 				required
 				class="p-2 border border-gray-300 rounded-sm text-gray-700 bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 file:bg-blue-500 file:text-white file:p-2 file:cursor-pointer file:rounded-md file:mr-2 hover:file:bg-blue-700 focus:file:bg-blue-800 w-full sm:w-[50%]"
@@ -471,9 +471,7 @@ templ home_menu() {
 		<div class="flex flex-col p-4 gap-2 pb-6">
 			<label for="hero_video" class="">Current Video Preview</label>
 			<div class="flex justify-center items-center h-100">
-				<video controls class="h-full">
-					<source src="/media/hero_video.webm"/>
-				</video>
+				<div hx-get="/introvideo" hx-swap="outerHTML" hx-trigger="load" class="p-4"></div>
 			</div>
 		</div>
 	</div>

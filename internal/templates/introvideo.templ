@@ -1,0 +1,7 @@
+package templates
+
+templ IntroVideo(video_path string) {
+	<video autoplay muted loop class="w-full">
+		<source src={ "/" + video_path }/>
+	</video>
+}
