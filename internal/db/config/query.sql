@@ -102,3 +102,16 @@ UPDATE admins
 SET username = $2, password_hash = $3
 WHERE id = $1
 RETURNING *;
+
+---------------------------------------------------
+-- Default Video Queries
+---------------------------------------------------
+-- name: SetVideo :one
+INSERT INTO default_video (id, url)
+VALUES (TRUE, $1)
+ON CONFLICT (id) DO UPDATE
+SET url = EXCLUDED.url
+RETURNING *;
+
+-- name: GetURL :one
+SELECT url FROM default_video;

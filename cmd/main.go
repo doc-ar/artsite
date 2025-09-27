@@ -46,7 +46,7 @@ func main() {
 	router.HandleFunc("GET /portfolio/", handlers.GetPortfolio(dbpool))
 	router.HandleFunc("GET /serieslist/", handlers.GetSeries(dbpool))
 	router.HandleFunc("GET /series/{name}/list", handlers.GetSeriesDetails(dbpool))
-	router.HandleFunc("GET /introvideo", handlers.GetIntroVideo())
+	router.HandleFunc("GET /introvideo", handlers.GetIntroVideo(dbpool))
 
 	// Authenticated CRUD handlers
 	router.HandleFunc("GET /admin/art/", utils.AuthMiddleware(handlers.GetArtAdmin(dbpool)))
@@ -56,7 +56,7 @@ func main() {
 	router.HandleFunc("GET /admin/seriesselector", utils.AuthMiddleware(handlers.GetSeriesSelector(dbpool)))
 	router.HandleFunc("GET /admin/portfolio/", utils.AuthMiddleware(handlers.GetPortfolioAdmin(dbpool)))
 	router.HandleFunc("POST /admin/upload", utils.AuthMiddleware(handlers.UploadImage()))
-	router.HandleFunc("POST /admin/uploadvideo", utils.AuthMiddleware(handlers.UploadVideo()))
+	router.HandleFunc("POST /admin/uploadvideo", utils.AuthMiddleware(handlers.UploadVideo(dbpool)))
 	router.HandleFunc("POST /admin/art", utils.AuthMiddleware(handlers.PostArt(dbpool)))
 	router.HandleFunc("POST /admin/series", utils.AuthMiddleware(handlers.PostSeries(dbpool)))
 	router.HandleFunc("POST /admin/portfolio/{id}", utils.AuthMiddleware(handlers.PostPortfolio(dbpool)))

@@ -2,8 +2,13 @@ CREATE TABLE series (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid () NOT NULL,
   name varchar(50) UNIQUE NOT NULL,
   description varchar(4000) DEFAULT '' NOT NULL,
-  cover_img varchar(80) DEFAULT '' NOT NULL,
+  cover_img varchar(300) DEFAULT '' NOT NULL,
   created_at timestamptz DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE default_video (
+  id boolean PRIMARY KEY DEFAULT TRUE, -- always just 1 row
+  url varchar(300) NOT NULL
 );
 
 CREATE TABLE art (
@@ -11,7 +16,7 @@ CREATE TABLE art (
   series_id uuid REFERENCES series (id) NOT NULL,
   title varchar(150) NOT NULL,
   description varchar(4000) NOT NULL,
-  image_url varchar(80) NOT NULL,
+  image_url varchar(300) NOT NULL,
   width int NOT NULL check (width >= 0),
   height int NOT NULL check (height >= 0),
   category varchar(15) NOT NULL CHECK (category IN ('Original', 'Print', 'Canvas Print')),

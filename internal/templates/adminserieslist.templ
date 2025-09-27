@@ -14,7 +14,7 @@ templ adminSeriesItem(item db.Series) {
 	if item.Name != "None" {
 		<li class="flex flex-col bg-gray-200 rounded-md overflow-auto gap-2 p-4">
 			<div class="self-start flex flex-col sm:flex-row gap-4">
-				<img src={ item.CoverImg } class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"/>
+				<img loading="lazy" src={ item.CoverImg } class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"/>
 				<table class="border-separate border-spacing-x-2 sm:border-spacing-x-4 border-spacing-y-2">
 					<tr class="align-text-top">
 						<td class="text-right"><strong>Name:</strong></td>

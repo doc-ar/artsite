@@ -12,6 +12,6 @@ templ SeriesDetailsList(artlist []db.Art) {
 
 templ seriesDetailsItem(item db.Art) {
 	<li class="break-inside-avoid overflow-hidden rounded-lg shadow hover:shadow-xl transition-shadow duration-300">
-		<img src={ "/" + item.ImageUrl } alt="Artwork" loading="lazy" class="w-full h-auto object-contain"/>
+		<img loading="lazy" src={ item.ImageUrl } alt="Artwork" class="w-full h-auto object-contain"/>
 	</li>
 }

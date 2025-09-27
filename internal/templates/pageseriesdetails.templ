@@ -7,7 +7,7 @@ templ SeriesDetailsPage(series db.Series) {
 	@Navbar()
 	<main class="flex flex-col items-center gap-4 flex-1">
 		<div class="relative flex flex-col rounded-lg items-center justify-center">
-			<img src={ "/" + series.CoverImg } class="w-full"/>
+			<img loading="lazy" src={ series.CoverImg } class="w-full"/>
 			<p class="absolute text-white font-black text-4xl sm:text-6xl">{ series.Name }</p>
 		</div>
 		<div

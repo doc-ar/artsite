@@ -56,7 +56,7 @@ func UploadVideo(file multipart.File) error {
 		return fmt.Errorf("error creating directory: %w", err)
 	}
 
-	video_url := fmt.Sprintf("media/intro_video_%d.webp", time.Now().Unix())
+	video_url := fmt.Sprintf("media/intro_video_%d.webm", time.Now().Unix())
 
 	RemoveExistingVideos()
 	introfile, err := os.Create(video_url)

@@ -9,6 +9,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	db "artsite/internal/db/queries"
+	"artsite/internal/mediaserver"
 	"artsite/internal/utils"
 )
 
@@ -31,6 +32,8 @@ func DeleteArt(pool *pgxpool.Pool) http.HandlerFunc {
 			fmt.Fprintf(os.Stderr, "Err: %v\n", err)
 			return
 		}
+
+		mediaserver.DeleteImageCLD(deletedart.ImageUrl)
 
 		fmt.Fprintf(os.Stdout, "Deleted Art: %v\n", deletedart)
 		fmt.Fprintf(os.Stdout, "DELETE /art endpoint successfully exited\n\n")
