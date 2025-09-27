@@ -3,14 +3,16 @@ package templates
 templ Navbar() {
 	<nav class="flex justify-between p-6 font-extralight bg-black w-full" x-data="{ menu: false }">
 		<div class="text-white flex items-center gap-2">
-			<span>Logo</span>
+			<a href="/" class="size-full">
+				<h1 class="text-white font-bold">Hafsa Khan</h1>
+			</a>
 		</div>
 		<!-- Desktop Nav Links -->
 		<div class="text-white hidden sm:flex flex-row gap-4 items-center">
 			<a href="/" class="hover:underline">Home</a>
 			<a href="/gallery" class="hover:underline">Gallery</a>
 			<a href="/series" class="hover:underline">Series</a>
-			<a href="/book" class="hover:underline">Book</a>
+			//<a href="/book" class="hover:underline">Book</a>
 		</div>
 		<!-- Hamburger Icon for Mobile -->
 		<button @click="menu = !menu" class="sm:hidden text-white focus:outline-none">

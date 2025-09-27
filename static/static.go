@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-//go:embed css/* script/*
+//go:embed css/* script/* logo.svg
 var files embed.FS
 
 func StaticHandler() http.Handler {
