@@ -20,5 +20,6 @@ RUN CGO_ENABLED=0 go build -o ./app ./cmd
 
 FROM scratch AS production
 COPY --from=builder /build/app /
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 EXPOSE 8000
 CMD [ "/app" ]
