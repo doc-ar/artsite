@@ -6,9 +6,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Install tools
-RUN curl -L -o /usr/local/bin/tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 && chmod +x /usr/local/bin/tailwindcss
-RUN go install github.com/a-h/templ/cmd/templ@latest
-RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+RUN curl -L -o /usr/local/bin/tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/download/v4.1.13/tailwindcss-linux-x64 && chmod +x /usr/local/bin/tailwindcss
+RUN go install github.com/a-h/templ/cmd/templ@v0.3.943
+RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.30.0
 
 COPY . .
 
