@@ -1,16 +1,18 @@
 package templates
 
 templ Navbar() {
-	<nav class="flex justify-between p-6 font-extralight bg-black w-full" x-data="{ menu: false }">
+	<nav class="flex justify-between py-6 px-10 font-extralight bg-[#151515] w-full" x-data="{ menu: false }">
 		<div class="text-white flex items-center gap-2">
 			<a href="/" class="size-full">
-				<h1 class="text-white font-bold">Hafsa Khan</h1>
+				<h1 class="text-white font-bold text-lg">Hafsa Khan</h1>
 			</a>
 		</div>
 		<!-- Desktop Nav Links -->
 		<div class="text-white hidden sm:flex flex-row gap-4 items-center">
 			<a href="/" class="hover:underline">Home</a>
+			<span class="select-none font-extrabold">|</span>
 			<a href="/gallery" class="hover:underline">Gallery</a>
+			<span class="select-none font-extrabold">|</span>
 			<a href="/series" class="hover:underline">Series</a>
 			//<a href="/book" class="hover:underline">Book</a>
 		</div>
