@@ -3,9 +3,9 @@ package templates
 import "artsite/internal/db/queries"
 
 templ Portfolio(portfolio []db.ListPortfolioRow) {
-	<div class="relative size-full sm:size-[95%] flex justify-center items-center py-8">
+	<div class="relative size-full sm:size-[90%] flex justify-center items-center py-8">
 		<svg
-			class="absolute top-1/2 left-0 z-10 cursor-pointer -translate-y-1/2 size-8 sm:size-18"
+			class="absolute top-1/2 left-0 z-10 cursor-pointer -translate-y-1/2 size-8 sm:size-18 hidden sm:block"
 			onclick="portfolioScrollLeft();"
 			width="64px"
 			height="64px"
@@ -35,7 +35,7 @@ templ Portfolio(portfolio []db.ListPortfolioRow) {
 			</g>
 		</svg>
 		<svg
-			class="absolute top-1/2 right-0 z-10 cursor-pointer -translate-y-1/2 size-8 sm:size-18"
+			class="absolute top-1/2 right-0 z-10 cursor-pointer -translate-y-1/2 size-8 sm:size-18 hidden sm:block"
 			onclick="portfolioScrollRight();"
 			width="64px"
 			height="64px"
@@ -75,7 +75,7 @@ templ Portfolio(portfolio []db.ListPortfolioRow) {
 }
 
 templ portfolioItemClient(item db.ListPortfolioRow) {
-	<li class="size-50 sm:size-120 flex justify-center items-center bg-[#353535] rounded-md">
-		<img loading="lazy" src={ item.ImageUrl } class="object-contain h-25 sm:h-60"/>
+	<li class="size-50 sm:size-120 flex justify-center items-center bg-stone-200 rounded-2xl">
+		<img loading="lazy" alt={ item.Description } src={ item.ImageUrl } class="object-contain h-25 sm:h-60"/>
 	</li>
 }

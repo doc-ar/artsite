@@ -13,7 +13,12 @@ templ GalleryPage() {
 			x-cloak
 			class="fixed sm:static flex flex-col z-20 h-full w-60 flex-shrink-0 gap-6 px-4 py-6 border-r border-gray-200 overflow-y-auto bg-white"
 		>
-			<button @click="filters = false" class="self-end mb-6">
+			<button
+				aria-label="open art filters"
+				aria-labelledby="art gallery page"
+				@click="filters = false"
+				class="self-end mb-6"
+			>
 				<svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 				</svg>

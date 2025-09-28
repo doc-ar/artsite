@@ -14,7 +14,12 @@ templ adminSeriesItem(item db.Series) {
 	if item.Name != "None" {
 		<li class="flex flex-col bg-gray-200 rounded-md overflow-auto gap-2 p-4">
 			<div class="self-start flex flex-col sm:flex-row gap-4">
-				<img loading="lazy" src={ item.CoverImg } class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"/>
+				<img
+					loading="lazy"
+					alt={ item.Description }
+					src={ item.CoverImg }
+					class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"
+				/>
 				<table class="border-separate border-spacing-x-2 sm:border-spacing-x-4 border-spacing-y-2">
 					<tr class="align-text-top">
 						<td class="text-right"><strong>Name:</strong></td>
@@ -32,6 +37,8 @@ templ adminSeriesItem(item db.Series) {
 			</div>
 			<div class="flex gap-4 items-center">
 				<button
+					aria-label="Delete Series"
+					aria-labelledby="Series Item"
 					hx-delete={ "/admin/series/" + item.ID.String() }
 					hx-swap="none"
 					hx-trigger="click"
@@ -41,6 +48,8 @@ templ adminSeriesItem(item db.Series) {
 					class="w-min px-6 py-2 text-base text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 				>Delete</button>
 				<button
+					aria-label="Edit Series"
+					aria-labelledby="Series Item"
 					hx-get={ "/admin/series/form/" + item.ID.String() }
 					hx-swap="innerHTML"
 					hx-target="#series_edit_form"

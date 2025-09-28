@@ -3,7 +3,10 @@ package templates
 import "artsite/internal/db/queries"
 
 templ GalleryArtList(artlist []db.ListArtRow) {
-	<ul id="gallery_item_list" class="size-full flex flex-wrap gap-x-20 gap-y-8 py-4 justify-center items-center">
+	<ul
+		id="gallery_item_list"
+		class="size-full flex flex-wrap gap-x-20 gap-y-8 py-4 justify-center items-center text-stone-900"
+	>
 		for _, art := range artlist {
 			@artItemGallery(art)
 		}
@@ -17,12 +20,17 @@ templ artItemGallery(art db.ListArtRow) {
 		data-category={ art.Category }
 		data-width={ art.Width }
 		data-height={ art.Height }
-		class="rounded-lg bg-gray-0 w-70 sm:w-90 h-min hover:scale-105 transition-transform hover:bg-gray-100 cursor-pointer"
+		class="rounded-lg bg-gray-0 w-70 sm:w-90 h-min hover:scale-105 transition-transform hover:bg-stone-200 cursor-pointer"
 	>
 		<a class="flex flex-col gap-4 p-4">
-			<img loading="lazy" src={ art.ImageUrl } class="drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] object-contain"/>
+			<img
+				loading="lazy"
+				alt={ art.Description }
+				src={ art.ImageUrl }
+				class="drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] object-contain"
+			/>
 			<div class="flex flex-col p-2">
-				<span class="italic font-extralight text-base">{ art.Title }</span>
+				<span class="italic font-light text-base">{ art.Title }</span>
 				<span class="font-extralight text-xs text-gray-400">{ art.Width } X { art.Height }</span>
 				<span class="font-extralight text-xs text-gray-400">{ art.Category } - { art.Medium }</span>
 				<span class="font-light text-black text-xs">{ art.Description }</span>

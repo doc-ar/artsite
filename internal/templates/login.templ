@@ -10,8 +10,9 @@ templ LoginPage() {
 			@htmx:after-request="if (!(event.detail.xhr.status >= 400)) location.reload(); loading = false"
 			class="p-4 flex flex-col gap-4 items-center justify-center w-9/10 h-3/10  rounded-sm border-gray-300 border-1 sm:h-3/10 sm:w-5/10"
 		>
-			<label for="password" class="text-xl font-semibold sm:text-3xl">Enter Admin Password</label>
+			<label for="login_password" class="text-xl font-semibold sm:text-3xl">Enter Admin Password</label>
 			<input
+				id="login_password"
 				type="password"
 				name="password"
 				required

@@ -81,11 +81,11 @@ templ upload_menu() {
 			Art uploaded successfully
 		</span>
 		<div class="flex flex-col p-4 gap-2 pb-0">
-			<label for="image" class="">Upload Image</label>
+			<label for="image_input" class="">Upload Image</label>
 			<input
 				id="image_input"
 				type="file"
-				name="image"
+				name="image_input"
 				accept=".jpg, .jpeg, .png"
 				hx-post="/admin/upload"
 				hx-encoding="multipart/form-data"
@@ -121,10 +121,11 @@ templ upload_menu() {
 				<input type="text" name="image_url" required class="opacity-0 w-0 h-0 float-left"/>
 			</div>
 			<div class="flex flex-col gap-2">
-				<label for="title, description" class="">Title and Description</label>
+				<label for="art_upload_title" class="">Title and Description</label>
 				<input
 					type="text"
 					name="title"
+					id="art_upload_title"
 					placeholder="Title of art"
 					required
 					autocomplete="off"
@@ -140,9 +141,10 @@ templ upload_menu() {
 				></textarea>
 			</div>
 			<div class="flex flex-col gap-2">
-				<label for="width, height" class="">Dimensions</label>
+				<label for="art_upload_dimensions" class="">Dimensions</label>
 				<div class="flex gap-2">
 					<input
+						id="art_upload_dimensions"
 						type="number"
 						name="width"
 						placeholder="Width (cm)"
@@ -163,11 +165,11 @@ templ upload_menu() {
 				</div>
 			</div>
 			<div class="flex flex-col gap-2">
-				<label for="series_id" class="">Series</label>
+				<span class="text-base">Series</span>
 				<div hx-get="/admin/seriesselector" hx-swap="innerHTML" hx-trigger="load" class=""></div>
 			</div>
 			<div class="flex flex-col gap-2">
-				<label class="">Category</label>
+				<span class="text-base">Category</span>
 				<fieldset class="flex gap-3 flex-wrap sm:flex-nowrap">
 					<legend class="sr-only">Category</legend>
 					<div class="flex items-center">
@@ -204,8 +206,8 @@ templ upload_menu() {
 				</fieldset>
 			</div>
 			<div class="flex flex-col gap-2">
-				<label class="">Medium</label>
-				<fieldset class="flex gap-3 flex-wrap sm:flex-nowrap">
+				<span class="text-base">Medium</span>
+				<fieldset id="medium_fieldset" class="flex gap-3 flex-wrap sm:flex-nowrap">
 					<legend class="sr-only">Medium</legend>
 					<div class="flex items-center">
 						<input
@@ -259,10 +261,11 @@ templ upload_menu() {
 				</fieldset>
 			</div>
 			<div class="flex gap-4 items-center">
-				<label for="price" class="">Price</label>
+				<label for="art_price" class="">Price</label>
 				<input
 					type="number"
-					name="price"
+					id="art_price"
+					name="art_price"
 					placeholder="Price"
 					autocomplete="off"
 					required
@@ -271,6 +274,8 @@ templ upload_menu() {
 				/>
 			</div>
 			<button
+				aria-label="upload art"
+				aria-labelledby="art upload form"
 				type="submit"
 				class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 			>Add</button>
@@ -334,6 +339,8 @@ templ password_menu() {
 				Password Updated Successfully
 			</span>
 			<button
+				aria-label="update password"
+				aria-labelledby="password upload form"
 				type="submit"
 				class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 			>Update</button>
@@ -362,7 +369,7 @@ templ series_menu() {
 		</span>
 		<div class="flex flex-col p-4 gap-2 pb-0">
 			<div class="flex flex-col p-4 gap-2 pb-0">
-				<label for="image" class="">Upload Image</label>
+				<span class="text-base">Upload Image</span>
 				<input
 					id="image_input_series"
 					type="file"
@@ -402,7 +409,7 @@ templ series_menu() {
 					<input type="text" name="image_url" required class="opacity-0 w-0 h-0 float-left"/>
 				</div>
 				<div class="flex flex-col gap-2">
-					<label for="title, description" class="">Title and Description</label>
+					<span class="text-base">Title and Description</span>
 					<input
 						type="text"
 						name="name"
@@ -421,6 +428,8 @@ templ series_menu() {
 					></textarea>
 				</div>
 				<button
+					aria-label="add new series"
+					aria-labelledby="series form"
 					type="submit"
 					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 				>Add</button>
@@ -457,6 +466,7 @@ templ video_menu() {
 			<input
 				type="file"
 				name="hero_video"
+				id="hero_video"
 				accept="video/*"
 				hx-post="/admin/uploadvideo"
 				hx-encoding="multipart/form-data"

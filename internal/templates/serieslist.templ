@@ -15,7 +15,7 @@ templ seriesListItem(item db.Series) {
 	if item.Name != "None" {
 		<a href={ "/series/" + strings.ToLower(item.Name) }>
 			<li class="relative flex flex-col rounded-lg items-center justify-center shadow-[inset_0_0_0_6px_rgba(0,0,0,1)]">
-				<img loading="lazy" src={ item.CoverImg } class="w-200 blur-xs"/>
+				<img loading="lazy" alt={ item.Description } src={ item.CoverImg } class="w-200 blur-xs"/>
 				<p class="absolute text-white font-black text-4xl sm:text-6xl">{ item.Name }</p>
 			</li>
 		</a>

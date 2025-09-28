@@ -7,7 +7,7 @@ templ EditArtForm(item db.Art) {
 		class="fixed z-10 sm:w-8/10 sm:h-8/10 size-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white sm:rounded-lg sm:ring-4 sm:ring-blue-500 overflow-auto"
 	>
 		<form
-			id="admin_edit_form"
+			id="admin_art_edit_form"
 			hx-put="/admin/art"
 			hx-swap="none"
 			@htmx:before-send="loading = true;"
@@ -216,7 +216,7 @@ templ EditArtForm(item db.Art) {
 				</fieldset>
 			</div>
 			<div class="flex gap-4 items-center">
-				<label for="price" class="">Price</label>
+				<span class="text-base">Price</span>
 				<input
 					type="number"
 					name="price"
@@ -230,12 +230,16 @@ templ EditArtForm(item db.Art) {
 			</div>
 			<div class="flex gap-4 items-center">
 				<button
+					aria-label="submit edit art form"
+					aria-labelledby="edit art form"
 					type="submit"
 					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 				>Submit</button>
 				<button
+					aria-label="close edit art form"
+					aria-labelledby="edit art form"
 					type="button"
-					onclick="closeEditForm()"
+					onclick="closeArtEditForm()"
 					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 				>Close</button>
 			</div>
@@ -245,10 +249,10 @@ templ EditArtForm(item db.Art) {
 
 templ EditSeriesForm(item db.Series) {
 	<div
-		class="fixed z-10 sm:w-8/10 sm:h-8/10 size-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white sm:rounded-lg sm:ring-4 sm:ring-blue-500 overflow-auto"
+		class="fixed z-10 sm:w-8/10 sm:h-4/10 size-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white sm:rounded-lg sm:ring-4 sm:ring-blue-500 overflow-auto"
 	>
 		<form
-			id="admin_edit_form"
+			id="admin_series_edit_form"
 			hx-put="/admin/series"
 			hx-swap="none"
 			@htmx:before-send="loading = true;"
@@ -287,12 +291,16 @@ templ EditSeriesForm(item db.Series) {
 			</div>
 			<div class="flex gap-4 items-center">
 				<button
+					aria-label="submit edit series form"
+					aria-labelledby="edit series form"
 					type="submit"
 					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 				>Submit</button>
 				<button
+					aria-label="close edit series form"
+					aria-labelledby="edit series form"
 					type="button"
-					onclick="closeEditForm()"
+					onclick="closeSeriesEditForm()"
 					class="w-min px-6 py-2 text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:bg-blue-800 hover:cursor-pointer"
 				>Close</button>
 			</div>

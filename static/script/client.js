@@ -8,7 +8,7 @@ document.body.addEventListener("htmx:afterSwap", () => {
 function portfolioScrollLeft() {
   const container = document.getElementById("portfolio-container");
   container.style.scrollBehavior = "smooth";
-  container.scrollLeft -= 500;
+  container.scrollLeft -= 800;
 
   setTimeout(() => {
     container.style.scrollBehavior = "auto";
@@ -17,7 +17,7 @@ function portfolioScrollLeft() {
 function portfolioScrollRight() {
   const container = document.getElementById("portfolio-container");
   container.style.scrollBehavior = "smooth";
-  container.scrollLeft += 500;
+  container.scrollLeft += 800;
 
   setTimeout(() => {
     container.style.scrollBehavior = "auto";
@@ -49,10 +49,21 @@ function setCookie(name, value, days = 7) {
 }
 
 // Function to close edit art form
-function closeEditForm() {
-  const form_parent = document.querySelector("#art_edit_form");
+function closeArtEditForm() {
+  const form_parent = document.querySelector(
+    "#admin_art_edit_form",
+  ).parentElement;
   if (form_parent) {
-    form_parent.innerHTML = "";
+    form_parent.outerHTML = "";
+  }
+}
+// Function to close edit series form
+function closeSeriesEditForm() {
+  const form_parent = document.querySelector(
+    "#admin_series_edit_form",
+  ).parentElement;
+  if (form_parent) {
+    form_parent.outerHTML = "";
   }
 }
 

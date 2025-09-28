@@ -14,9 +14,17 @@ templ portfolioItem(item db.ListPortfolioRow) {
 	<li
 		class="flex flex-col gap-2 items-center justify-center rounded-lg bg-gray-0 w-70 sm:w-90 h-min hover:scale-105 transition-transform hover:bg-gray-100 cursor-pointer p-4"
 	>
-		<img loading="lazy" src={ item.ImageUrl } class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"/>
+		<img
+			loading="lazy"
+			alt={ item.Description }
+			src={ item.ImageUrl }
+			class="object-contain h-60 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"
+		/>
 		<button
-			hx-delete={ "/admin/portfolio/" + item.ArtID.String() }
+			aria-label="remove art from portfolio"
+			aria-labelledby="portfolio list"
+			hx-delete={ "/admin/portfolio/" +
+    item.ArtID.String() }
 			hx-swap="none"
 			hx-trigger="click"
 			@htmx:before-request="loading = true;"
