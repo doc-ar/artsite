@@ -13,8 +13,8 @@ templ EditArtForm(item db.Art) {
 			@htmx:before-send="loading = true;"
 			@htmx:after-request="
         loading = false;
-        if(event.target.getAttribute('id') === 'admin_edit_form') {
-          closeEditForm();
+        if(event.target.getAttribute('id') === 'admin_art_edit_form') {
+          closeArtEditForm();
           location.reload();
         }
       "

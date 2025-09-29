@@ -43,7 +43,7 @@ func UploadImage() http.HandlerFunc {
 		fmt.Fprintf(os.Stdout, "Upload Image Handler Reached\n")
 		r.ParseMultipartForm(20 << 20)
 
-		file, _, err := r.FormFile("image")
+		file, _, err := r.FormFile("image_input")
 		if err != nil {
 			utils.RespondError(w, r, http.StatusBadRequest, "Error retrieving file from request")
 			fmt.Fprintf(os.Stderr, "Err: %v\n", err)
@@ -53,7 +53,7 @@ func UploadImage() http.HandlerFunc {
 		image_url, err := mediaserver.UploadImageCLD(file)
 		if err != nil {
 			utils.RespondError(w, r, http.StatusInternalServerError, "Error uploading file to the server")
-			fmt.Fprintf(os.Stderr, "Err: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Err %d: %v\n", http.StatusInternalServerError, err)
 			return
 		}
 
