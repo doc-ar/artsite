@@ -3,7 +3,7 @@ package templates
 import "artsite/internal/db/queries"
 
 templ SeriesDetailsList(artlist []db.Art) {
-	<ul class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 p-6 max-w-screen-xl mx-auto space-y-4">
+	<ul class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-6 max-w-screen-xl mx-auto">
 		for _, item := range artlist {
 			@seriesDetailsItem(item)
 		}
