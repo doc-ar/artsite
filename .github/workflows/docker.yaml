@@ -46,17 +46,15 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            ${{ steps.meta.outputs.tags }}
-            docark/artsite:latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=docark/artsite:latest
           cache-to: type=inline
 
-      - name: Deploy to Railway
+      - name: Trigger Railway Redeploy
         uses: docker://ghcr.io/railwayapp/cli:latest
         env:
           SVC_ID: ${{ vars.RAILWAY_SERVICE_ID }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         with:
-          args: redeploy --service=${{ env.SVC_ID }}
+          args: railway redeploy --service=${{ env.SVC_ID }}
