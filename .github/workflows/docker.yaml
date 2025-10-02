@@ -48,8 +48,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=docark/artsite:buildcache
-          cache-to: type=registry,ref=docark/artsite:buildcache,mode=max
+          cache-from: type=registry,ref=user/app:latest
+          cache-to: type=inline
 
       - name: Deploy to Railway
         uses: docker://ghcr.io/railwayapp/cli:latest
