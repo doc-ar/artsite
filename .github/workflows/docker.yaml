@@ -7,7 +7,7 @@
 # To get a newer version, you will need to update the SHA.
 # You can also reference a tag or branch, but the action may change without warning.
 
-name: Publish Docker image and Trigger Railway Deploy
+name: Docker Build and Push
 
 on:
   push:
@@ -48,13 +48,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=docark/artsite:latest
-          cache-to: type=inline
-
-      - name: Trigger Railway Redeploy
-        uses: docker://ghcr.io/railwayapp/cli:latest
-        env:
-          SVC_ID: ${{ vars.RAILWAY_SERVICE_ID }}
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        with:
-          args: railway redeploy --service=${{ env.SVC_ID }}
+          cache-from: type=registry,ref=docark/artsite:buildcache
+          cache-to: type=registry,ref=docark/artsite:buildcache,mode=max
