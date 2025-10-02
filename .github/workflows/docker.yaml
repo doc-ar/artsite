@@ -46,9 +46,11 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            docark/artsite:latest
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=user/app:latest
+          cache-from: type=registry,ref=docark/artsite:latest
           cache-to: type=inline
 
       - name: Deploy to Railway
