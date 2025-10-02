@@ -12,13 +12,14 @@ templ HomePage() {
 			<h2 class="text-2xl sm:text-3xl font-semibold text-[#f59e37] text-center">
 				🎨 Transform Your Art in Just 1 Hour!
 			</h2>
+			<img src="https://res.cloudinary.com/dxxyuzmvo/image/upload/f_auto,q_auto/workshop_kudjx2.png" class=""/>
 			<p class="text-lg leading-relaxed">
 				Stop struggling with endless tutorials or guessing your way through sketches. In this hands-on workshop, you’ll
 				learn how to paint and draw with confidence, whether it’s landscapes, still life, or trees—classical or
 				impressionist style!
 			</p>
 			<p class="text-lg font-medium">Here’s what you’ll walk away with:</p>
-			<ul class="list-disc list-inside text-left mx-auto space-y-2">
+			<ul class="list-dis text-lg list-inside text-left mx-auto space-y-2">
 				<li>Proven techniques to make your landscapes and trees come alive with realism and depth.</li>
 				<li>Step-by-step guidance for charcoal, graphite, and watercolor—perfect for sketching and painting.</li>
 				<li>The secret to finishing your paintings without overwhelm, using manageable stages.</li>
@@ -31,13 +32,15 @@ templ HomePage() {
 				Whether you’re a beginner or looking to refine your skills, this workshop gives you the tools, clarity, and
 				confidence to start creating artworks you’ll be proud of—right away!
 			</p>
-			<button
-				aria-label="join workshop"
-				aria-labelledby="homepage"
-				class="self-center mt-4 px-6 py-3 rounded-full bg-[#e59e37] text-white font-semibold shadow-md hover:bg-[#f59e37] transition"
+			<a
+				href="https://docs.google.com/forms/d/e/1FAIpQLSd1hkpnq2vpxEo9ASPpSkVpRu8PdMIojrWBaQQQywq0_tzSiw/viewform"
+				target="_blank"
+				class="self-center mt-4 px-6 py-3 rounded-full bg-[#e59e37] text-white font-semibold shadow-md hover:bg-[#f59e37] transition hover:cursor-pointer"
 			>
-				Join the Workshop
-			</button>
+				<button aria-label="join workshop" aria-labelledby="homepage">
+					Join the Workshop
+				</button>
+			</a>
 		</div>
 	</main>
 	@Footer()

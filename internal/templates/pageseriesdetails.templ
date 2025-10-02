@@ -6,8 +6,8 @@ import "strings"
 templ SeriesDetailsPage(series db.Series) {
 	@Navbar()
 	<main class="flex flex-col items-center gap-4 flex-1">
-		<div class="relative flex flex-col rounded-lg items-center justify-center">
-			<a href="javascript:history.back()" class="absolute size-8 sm:size-12 top-4 left-4">
+		<div class="relative w-full flex flex-col items-center justify-center">
+			<a href="javascript:history.back()" class="absolute z-5 block size-8 sm:size-12 top-4 left-4">
 				<svg class="size-full" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<g>
 						<path
@@ -38,7 +38,10 @@ templ SeriesDetailsPage(series db.Series) {
 				</svg>
 			</a>
 			<img loading="lazy" alt={ series.Description } src={ series.CoverImg } class="w-full"/>
-			<p class="absolute text-white font-black text-4xl sm:text-6xl">{ series.Name }</p>
+			<div class="flex flex-col gap-4 absolute text-white font-black justify-center items-center text-shadow-lg">
+				<p class="text-xl sm:text-6xl">{ series.Name }</p>
+				<p class="text-[6px] sm:text-lg w-[75%] text-justify">{ series.Description }</p>
+			</div>
 		</div>
 		<div
 			hx-get={ "/series/" + strings.ToLower(series.Name) + "/list" }
